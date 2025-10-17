@@ -36,6 +36,12 @@ const mixins = {
     align-items: center;
   `,
 
+  flexStart: css`
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+  `,
+
   link: css`
     display: inline-block;
     text-decoration: none;

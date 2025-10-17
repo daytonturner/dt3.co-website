@@ -18,8 +18,8 @@ const StyledLoader = styled.div`
   z-index: 99;
 
   .logo-wrapper {
-    width: max-content;
-    max-width: 100px;
+    width: 600px;
+    height: 100px;
     transition: var(--transition);
     opacity: ${props => (props.isMounted ? 1 : 0)};
     svg {
@@ -29,7 +29,13 @@ const StyledLoader = styled.div`
       margin: 0 auto;
       fill: none;
       user-select: none;
-      #B {
+      #textContainer {
+        opacity: 0;
+      }
+      #chev2 {
+        opacity: 0;
+      }
+      #chev3 {
         opacity: 0;
       }
     }
@@ -46,17 +52,40 @@ const Loader = ({ finishLoading }) => {
 
     loader
       .add({
-        targets: '#logo path',
-        delay: 300,
-        duration: 1500,
+        targets: '#logo #chev1',
+        delay: 200,
+        duration: 600,
         easing: 'easeInOutQuart',
-        strokeDashoffset: [anime.setDashoffset, 0],
+        translateX: [-30, 0], // Slide from left to right
+        translateY: [30, 0], // Slide from bottom to top
       })
       .add({
-        targets: '#logo #B',
-        duration: 700,
+        targets: '#logo #chev2',
+        duration: 300,
         easing: 'easeInOutQuart',
         opacity: 1,
+        translateY: [-30, 0], // Slide from top to bottom
+      })
+      .add({
+        targets: '#logo #chev3',
+        duration: 300,
+        easing: 'easeInOutQuart',
+        opacity: 1,
+        translateX: [30, 0], // Slide from left to right
+        translateY: [30, 0], // Slide from bottom to top
+      })
+      .add({
+        targets: '#logo',
+        duration: 300,
+        easing: 'easeInOutQuart',
+        translateX: [0, -90], // Slide from right to left
+      })
+      .add({
+        targets: '#logo #textContainer',
+        duration: 300,
+        easing: 'easeInOutQuart',
+        opacity: 1,
+        translateX: [30, 90],
       })
       .add({
         targets: '#logo',
@@ -65,6 +94,7 @@ const Loader = ({ finishLoading }) => {
         easing: 'easeInOutQuart',
         opacity: 0,
         scale: 0.1,
+        translateX: 0,
       })
       .add({
         targets: '.loader',

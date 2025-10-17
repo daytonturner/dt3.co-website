@@ -1,13 +1,14 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { Link } from 'gatsby';
 import PropTypes from 'prop-types';
 import { CSSTransition, TransitionGroup } from 'react-transition-group';
 import styled, { css } from 'styled-components';
+import anime from 'animejs';
 import { navLinks } from '@config';
 import { loaderDelay } from '@utils';
 import { useScrollDirection, usePrefersReducedMotion } from '@hooks';
 import { Menu } from '@components';
-import { IconLogo, IconHex } from '@components/icons';
+import { IconLogo } from '@components/icons';
 
 const StyledHeader = styled.header`
   ${({ theme }) => theme.mixins.flexBetween};
@@ -63,46 +64,40 @@ const StyledNav = styled.nav`
   z-index: 12;
 
   .logo {
-    ${({ theme }) => theme.mixins.flexCenter};
+    ${({ theme }) => theme.mixins.flexStart};
+    width: 200px;
 
     a {
       color: var(--green);
-      width: 42px;
+      width: 200px;
       height: 42px;
       position: relative;
       z-index: 1;
 
-      .hex-container {
-        position: absolute;
-        top: 0;
-        left: 0;
-        z-index: -1;
-        @media (prefers-reduced-motion: no-preference) {
-          transition: var(--transition);
-        }
-      }
-
       .logo-container {
         position: relative;
+        width: 200px;
+        height: 48px;
         z-index: 1;
         svg {
-          fill: none;
           user-select: none;
           @media (prefers-reduced-motion: no-preference) {
             transition: var(--transition);
           }
-          polygon {
-            fill: var(--navy);
+          #chevron {
+            transform-box: fill-box;
+            transform-origin: center;
+            transform: rotate(0deg);
+            will-change: transform;
           }
         }
       }
-
-      &:hover,
-      &:focus {
-        outline: 0;
-        transform: translate(-4px, -4px);
-        .hex-container {
-          transform: translate(4px, 3px);
+      #textContainer {
+        transition: transform 0.3s ease-out;
+      }
+      .logo-container:hover {
+        #textContainer {
+          transform: translate(4px, 0px);
         }
       }
     }
@@ -155,6 +150,8 @@ const Nav = ({ isHome }) => {
   const scrollDirection = useScrollDirection('down');
   const [scrolledToTop, setScrolledToTop] = useState(true);
   const prefersReducedMotion = usePrefersReducedMotion();
+  const logoRef = useRef(null);
+  const rotationRef = useRef(0);
 
   const handleScroll = () => {
     setScrolledToTop(window.pageYOffset < 50);
@@ -181,34 +178,41 @@ const Nav = ({ isHome }) => {
   const fadeClass = isHome ? 'fade' : '';
   const fadeDownClass = isHome ? 'fadedown' : '';
 
+  const handleLogoHover = () => {
+    if (prefersReducedMotion || !logoRef.current) {
+      return;
+    }
+
+    const chevron = logoRef.current.querySelector('#chevron');
+
+    // Calculate new rotation
+    const newRotation = rotationRef.current + 360;
+    rotationRef.current = newRotation;
+
+    anime({
+      targets: chevron,
+      rotate: newRotation,
+      duration: 600,
+      easing: 'easeInOutQuart',
+    });
+  };
+
   const Logo = (
     <div className="logo" tabIndex="-1">
       {isHome ? (
-        <a href="/" aria-label="home">
-          <div className="hex-container">
-            <IconHex />
-          </div>
-          <div className="logo-container">
+        <a href="/" aria-label="home" onMouseEnter={handleLogoHover}>
+          <div className="logo-container" ref={logoRef}>
             <IconLogo />
           </div>
         </a>
       ) : (
-        <Link to="/" aria-label="home">
-          <div className="hex-container">
-            <IconHex />
-          </div>
-          <div className="logo-container">
+        <Link to="/" aria-label="home" onMouseEnter={handleLogoHover}>
+          <div className="logo-container" ref={logoRef}>
             <IconLogo />
           </div>
         </Link>
       )}
     </div>
-  );
-
-  const ResumeLink = (
-    <a className="resume-button" href="/resume.pdf" target="_blank" rel="noopener noreferrer">
-      Resume
-    </a>
   );
 
   return (
@@ -227,7 +231,6 @@ const Nav = ({ isHome }) => {
                     </li>
                   ))}
               </ol>
-              <div>{ResumeLink}</div>
             </StyledLinks>
 
             <Menu />
@@ -256,16 +259,6 @@ const Nav = ({ isHome }) => {
                     ))}
                 </TransitionGroup>
               </ol>
-
-              <TransitionGroup component={null}>
-                {isMounted && (
-                  <CSSTransition classNames={fadeDownClass} timeout={timeout}>
-                    <div style={{ transitionDelay: `${isHome ? navLinks.length * 100 : 0}ms` }}>
-                      {ResumeLink}
-                    </div>
-                  </CSSTransition>
-                )}
-              </TransitionGroup>
             </StyledLinks>
 
             <TransitionGroup component={null}>
