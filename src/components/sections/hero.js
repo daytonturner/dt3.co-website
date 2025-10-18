@@ -92,7 +92,7 @@ const Hero = () => {
     </>
   );
   const five = (
-    <a className="email-link" href="/#/projects">
+    <a className="email-link" href="/#projects">
       Check out some of our work
     </a>
   );
