@@ -6,27 +6,36 @@ import styled from 'styled-components';
 import { IconLoader } from '@components/icons';
 
 const StyledLoader = styled.div`
-  ${({ theme }) => theme.mixins.flexCenter};
   position: fixed;
   top: 0;
-  bottom: 0;
   left: 0;
   right: 0;
-  width: 100%;
-  height: 100%;
+  bottom: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
   background-color: var(--dark-navy);
   z-index: 99;
+  overflow: hidden;
 
   .logo-wrapper {
-    width: 600px;
-    height: 100px;
+    width: 100%;
+    max-width: 95vw; /* Increased from 90vw to 95vw */
+    padding: 0 10px; /* Changed from 5% to fixed 10px */
+    box-sizing: border-box;
     transition: var(--transition);
     opacity: ${props => (props.isMounted ? 1 : 0)};
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+    overflow: visible;
     svg {
       display: block;
-      width: 100%;
-      height: 100%;
-      margin: 0 auto;
+      height: auto;
+      max-width: 100%;
+      max-height: 70px;
+      flex-shrink: 0;
       fill: none;
       user-select: none;
       #textContainer {
@@ -38,6 +47,17 @@ const StyledLoader = styled.div`
       #chev3 {
         opacity: 0;
       }
+    }
+  }
+
+  @media (max-width: 480px) {
+    .logo-wrapper {
+      max-width: 95vw; /* Increased from 85vw to 95vw */
+      padding: 0 5px; /* Reduced padding for mobile */
+    }
+
+    svg {
+      max-height: 50px;
     }
   }
 `;
@@ -56,36 +76,37 @@ const Loader = ({ finishLoading }) => {
         delay: 200,
         duration: 600,
         easing: 'easeInOutQuart',
-        translateX: [-30, 0], // Slide from left to right
-        translateY: [30, 0], // Slide from bottom to top
+        translateX: [-20, 0], // Reduced from 30 to 20
+        translateY: [20, 0], // Reduced from 30 to 20
       })
       .add({
         targets: '#logo #chev2',
         duration: 300,
         easing: 'easeInOutQuart',
         opacity: 1,
-        translateY: [-30, 0], // Slide from top to bottom
+        translateY: [-20, 0], // Reduced from 30 to 20
       })
       .add({
         targets: '#logo #chev3',
         duration: 300,
         easing: 'easeInOutQuart',
         opacity: 1,
-        translateX: [30, 0], // Slide from left to right
-        translateY: [30, 0], // Slide from bottom to top
+        translateX: [20, 0], // Reduced from 30 to 20
+        translateY: [20, 0], // Reduced from 30 to 20
       })
       .add({
         targets: '#logo',
         duration: 300,
         easing: 'easeInOutQuart',
-        translateX: [0, -90], // Slide from right to left
+        scale: 0.9,
+        translateX: [0, -30], // Adjust to move logo left
       })
       .add({
         targets: '#logo #textContainer',
         duration: 300,
         easing: 'easeInOutQuart',
         opacity: 1,
-        translateX: [30, 90],
+        translateX: [0, 90], // Increased from 60 to 90 for more spacing
       })
       .add({
         targets: '#logo',
