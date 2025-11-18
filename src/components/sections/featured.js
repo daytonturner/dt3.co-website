@@ -7,7 +7,7 @@ import { srConfig } from '@config';
 import { Icon } from '@components/icons';
 import { usePrefersReducedMotion } from '@hooks';
 
-const StyledProjectsGrid = styled.ul`
+const StyledInvestmentsGrid = styled.ul`
   ${({ theme }) => theme.mixins.resetList};
 
   a {
@@ -331,9 +331,9 @@ const Featured = () => {
     }
   `);
 
-  const featuredProjects = data.featured.edges.filter(({ node }) => node);
+  const featuredInvestments = data.featured.edges.filter(({ node }) => node);
   const revealTitle = useRef(null);
-  const revealProjects = useRef([]);
+  const revealInvestments = useRef([]);
   const prefersReducedMotion = usePrefersReducedMotion();
 
   useEffect(() => {
@@ -342,27 +342,27 @@ const Featured = () => {
     }
 
     sr.reveal(revealTitle.current, srConfig());
-    revealProjects.current.forEach((ref, i) => sr.reveal(ref, srConfig(i * 100)));
+    revealInvestments.current.forEach((ref, i) => sr.reveal(ref, srConfig(i * 100)));
   }, []);
 
   return (
-    <section id="projects">
+    <section id="investments">
       <h2 className="numbered-heading" ref={revealTitle}>
-        Some Things I’ve Built
+        Our Investments
       </h2>
 
-      <StyledProjectsGrid>
-        {featuredProjects &&
-          featuredProjects.map(({ node }, i) => {
+      <StyledInvestmentsGrid>
+        {featuredInvestments &&
+          featuredInvestments.map(({ node }, i) => {
             const { frontmatter, html } = node;
             const { external, title, tech, github, cover, cta } = frontmatter;
             const image = getImage(cover);
 
             return (
-              <StyledProject key={i} ref={el => (revealProjects.current[i] = el)}>
+              <StyledProject key={i} ref={el => (revealInvestments.current[i] = el)}>
                 <div className="project-content">
                   <div>
-                    <p className="project-overline">Featured Project</p>
+                    <p className="project-overline">Active Investment</p>
 
                     <h3 className="project-title">
                       <a href={external}>{title}</a>
@@ -409,7 +409,7 @@ const Featured = () => {
               </StyledProject>
             );
           })}
-      </StyledProjectsGrid>
+      </StyledInvestmentsGrid>
     </section>
   );
 };

@@ -125,43 +125,47 @@ const About = () => {
     sr.reveal(revealContainer.current, srConfig());
   }, []);
 
-  const skills = ['JavaScript (ES6+)', 'TypeScript', 'React', 'Eleventy', 'Node.js', 'WordPress'];
+  const skills = [
+    'Fractional CTO',
+    'M&A Integration',
+    'Engineering Strategy',
+    'Product Development',
+    'Technical Strategy',
+    'Angel Investment',
+  ];
 
   return (
     <StyledAboutSection id="about" ref={revealContainer}>
-      <h2 className="numbered-heading">About Me</h2>
+      <h2 className="numbered-heading">About Us</h2>
 
       <div className="inner">
         <StyledText>
           <div>
             <p>
-              Hello! My name is Dayton and I enjoy creating things that live on the internet. My
-              interest in web development started back in 2012 when I decided to try editing custom
-              Tumblr themes — turns out hacking together a custom reblog button taught me a lot
-              about HTML &amp; CSS!
+              Hey, I'm Dayton and I run dt3 Labs.
+              <br></br>
+              <br></br>
+              Since I was a child, I've been fascinated by technology and the people who build it.
+              My first computer had a modem, and I discovered the BBS scene, eventually running my
+              own. The first time I saw the internet, I was hooked.
             </p>
 
             <p>
-              Fast-forward to today, and I’ve had the privilege of working at{' '}
-              <a href="https://us.mullenlowe.com/">an advertising agency</a>,{' '}
-              <a href="https://starry.com/">a start-up</a>,{' '}
-              <a href="https://www.apple.com/">a huge corporation</a>, and{' '}
-              <a href="https://scout.camd.northeastern.edu/">a student-led design studio</a>. My
-              main focus these days is building accessible, inclusive products and digital
-              experiences at <a href="https://upstatement.com/">Upstatement</a> for a variety of
-              clients.
-            </p>
-
-            <p>
-              I also recently{' '}
-              <a href="https://www.newline.co/courses/build-a-spotify-connected-app">
-                launched a course
+              Fast-forward to today - I've built a few companies and worked with some incredible
+              teams. I've built out two datacenters,{' '}
+              <a href="https://www.airg.com/">a mobile games company</a>,{' '}
+              <a href="https://www.prolexic.com/">the first DDoS mitigator</a>,{' '}
+              <a href="https://web.archive.org/web/20110714075742/http://www.metrobridge.com/">
+                a wireless ISP,
               </a>{' '}
-              that covers everything you need to build a web app with the Spotify API using Node
-              &amp; React.
+              <a href="https://www.voxter.com/">an Enterprise VoIP platform</a>,{' '}
+              <a href="https://www.ooma.com/">an AI-focused product lab</a>, and{' '}
+              <a href="https://www.digg.com/">rebooted a beloved social media brand</a>. My main
+              focus these days is helping companies build better products and engineering teams at{' '}
+              <a href="https://dt3.co/">dt3 Labs</a>.
             </p>
 
-            <p>Here are a few technologies I’ve been working with recently:</p>
+            <p>Here are a few ways we're able to help:</p>
           </div>
 
           <ul className="skills-list">

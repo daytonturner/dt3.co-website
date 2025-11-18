@@ -67,12 +67,13 @@ const Hero = () => {
       <Typewriter
         options={{
           strings: [
+            'offer fractional CTO services',
             'build and scale companies',
-            'make private investments',
+            'occasionally make private investments',
             'bring decades of experience',
-            'love to innovate',
+            'get excited about new tech',
             'find joy in creativity',
-            'love a good challenge',
+            'love a good challenge.',
           ],
           autoStart: true,
           loop: true,

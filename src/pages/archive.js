@@ -130,10 +130,10 @@ const StyledTableContainer = styled.div`
 `;
 
 const ArchivePage = ({ location, data }) => {
-  const projects = data.allMarkdownRemark.edges;
+  const investments = data.allMarkdownRemark.edges;
   const revealTitle = useRef(null);
   const revealTable = useRef(null);
-  const revealProjects = useRef([]);
+  const revealInvestments = useRef([]);
   const prefersReducedMotion = usePrefersReducedMotion();
 
   useEffect(() => {
@@ -143,7 +143,7 @@ const ArchivePage = ({ location, data }) => {
 
     sr.reveal(revealTitle.current, srConfig());
     sr.reveal(revealTable.current, srConfig(200, 0));
-    revealProjects.current.forEach((ref, i) => sr.reveal(ref, srConfig(i * 10)));
+    revealInvestments.current.forEach((ref, i) => sr.reveal(ref, srConfig(i * 10)));
   }, []);
 
   return (
@@ -168,8 +168,8 @@ const ArchivePage = ({ location, data }) => {
               </tr>
             </thead>
             <tbody>
-              {projects.length > 0 &&
-                projects.map(({ node }, i) => {
+              {investments.length > 0 &&
+                investments.map(({ node }, i) => {
                   const {
                     date,
                     github,
@@ -181,7 +181,7 @@ const ArchivePage = ({ location, data }) => {
                     company,
                   } = node.frontmatter;
                   return (
-                    <tr key={i} ref={el => (revealProjects.current[i] = el)}>
+                    <tr key={i} ref={el => (revealInvestments.current[i] = el)}>
                       <td className="overline year">{`${new Date(date).getFullYear()}`}</td>
 
                       <td className="title">{title}</td>
@@ -245,7 +245,7 @@ export default ArchivePage;
 export const pageQuery = graphql`
   {
     allMarkdownRemark(
-      filter: { fileAbsolutePath: { regex: "/content/projects/" } }
+      filter: { fileAbsolutePath: { regex: "/content/investments/" } }
       sort: { fields: [frontmatter___date], order: DESC }
     ) {
       edges {

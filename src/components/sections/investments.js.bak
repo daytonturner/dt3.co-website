@@ -1,0 +1,53 @@
+import React, { useState, useEffect, useRef } from 'react';
+import { useStaticQuery, graphql } from 'gatsby';
+import { srConfig } from '@config';
+import sr from '@utils/sr';
+import { usePrefersReducedMotion } from '@hooks';
+
+const Investments = () => {
+  const data = useStaticQuery(graphql`
+    query {
+      investments: allMarkdownRemark(
+        filter: {
+          fileAbsolutePath: { regex: "/content/investments/" }
+          frontmatter: { showInInvestments: { ne: false } }
+        }
+        sort: { fields: [frontmatter___date], order: DESC }
+      ) {
+        edges {
+          node {
+            frontmatter {
+              title
+              tech
+              github
+              external
+            }
+            html
+          }
+        }
+      }
+    }
+  `);
+
+  const revealTitle = useRef(null);
+  const revealArchiveLink = useRef(null);
+  const revealInvestments = useRef([]);
+  const prefersReducedMotion = usePrefersReducedMotion();
+
+  useEffect(() => {
+    if (prefersReducedMotion) {
+      return;
+    }
+
+    sr.reveal(revealTitle.current, srConfig());
+    sr.reveal(revealArchiveLink.current, srConfig());
+    revealInvestments.current.forEach((ref, i) => sr.reveal(ref, srConfig(i * 100)));
+  }, []);
+
+  const GRID_LIMIT = 6;
+  const investments = data.investments.edges.filter(({ node }) => node);
+
+  return null;
+};
+
+export default Investments;
