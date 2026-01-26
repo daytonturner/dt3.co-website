@@ -51,7 +51,19 @@ const StyledPostContent = styled.div`
 `;
 
 const PostTemplate = ({ data, location }) => {
-  const { frontmatter, html } = data.markdownRemark;
+  const post = data && data.markdownRemark;
+
+  if (!post) {
+    return (
+      <Layout location={location}>
+        <StyledPostContainer>
+          <p>Post not found.</p>
+        </StyledPostContainer>
+      </Layout>
+    );
+  }
+
+  const { frontmatter, html } = post;
   const { title, date, tags } = frontmatter;
 
   return (
@@ -99,7 +111,7 @@ PostTemplate.propTypes = {
 };
 
 export const pageQuery = graphql`
-  query($path: String!) {
+  query ($path: String!) {
     markdownRemark(frontmatter: { slug: { eq: $path } }) {
       html
       frontmatter {
